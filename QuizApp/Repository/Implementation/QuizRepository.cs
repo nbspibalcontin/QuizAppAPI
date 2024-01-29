@@ -61,7 +61,9 @@ namespace QuizApp.Repository.Implementation
                 {
                     throw new NotFoundException("No quizzes found.");
                 }
+
                 return quizzes;
+
             }
             catch (NotFoundException)
             {

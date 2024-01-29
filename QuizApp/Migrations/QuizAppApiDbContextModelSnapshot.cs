@@ -48,7 +48,7 @@ namespace QuizApp.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("Questiones");
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.Quiz", b =>
@@ -125,7 +125,7 @@ namespace QuizApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Scrores");
+                    b.ToTable("Scores");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.User", b =>

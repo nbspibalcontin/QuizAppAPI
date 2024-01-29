@@ -34,10 +34,22 @@ namespace QuizApp.Repository.Implementation
                     throw new ArgumentException($"Validation failed: {errorMessage}");
                 }
 
+                var quizDoesNotExist = _dbContext.Quizzes.Any(q => q.QuizId == request.QuizId);
+
+                if (!quizDoesNotExist)
+                {
+                    return new MessageResponse($"No quiz found with ID: {request.QuizId}");
+                }
+
+                // Check if all QuestionIds exist
+                if (request.QuestionAnswers.Any(qa => !_dbContext.Questions.Select(q => q.QuestionId).Contains(qa.QuestionId)))
+                {
+                    return new MessageResponse($"No question found with ID: {string.Join(", ", request.QuestionAnswers.Select(qa => qa.QuestionId))}");
+                }
+
                 //Mapper
                 var quizAnswers = _mapper.Map<List<QuizAnswer>>(request);
                 quizAnswers.ForEach(qa => qa.QuizId = request.QuizId);
-
                 _dbContext.QuizAnswers.AddRange(quizAnswers);
                 _dbContext.SaveChanges();
 
@@ -45,7 +57,7 @@ namespace QuizApp.Repository.Implementation
             }
             catch (System.Exception ex)
             {
-                return new MessageResponse("error " + ex.Message);
+                return new MessageResponse("Error : " + ex.Message);
             }
         }
 

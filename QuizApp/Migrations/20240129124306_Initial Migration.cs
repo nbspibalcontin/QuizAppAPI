@@ -5,7 +5,7 @@
 namespace QuizApp.Migrations
 {
     /// <inheritdoc />
-    public partial class initialentities : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -39,7 +39,7 @@ namespace QuizApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Questiones",
+                name: "Questions",
                 columns: table => new
                 {
                     QuestionId = table.Column<int>(type: "int", nullable: false)
@@ -51,9 +51,9 @@ namespace QuizApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Questiones", x => x.QuestionId);
+                    table.PrimaryKey("PK_Questions", x => x.QuestionId);
                     table.ForeignKey(
-                        name: "FK_Questiones_Quizzes_QuizId",
+                        name: "FK_Questions_Quizzes_QuizId",
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
                         principalColumn: "QuizId",
@@ -61,7 +61,7 @@ namespace QuizApp.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "Scrores",
+                name: "Scores",
                 columns: table => new
                 {
                     QuizScoreId = table.Column<int>(type: "int", nullable: false)
@@ -74,9 +74,9 @@ namespace QuizApp.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Scrores", x => x.QuizScoreId);
+                    table.PrimaryKey("PK_Scores", x => x.QuizScoreId);
                     table.ForeignKey(
-                        name: "FK_Scrores_Users_UserId",
+                        name: "FK_Scores_Users_UserId",
                         column: x => x.UserId,
                         principalTable: "Users",
                         principalColumn: "UserId");
@@ -96,9 +96,9 @@ namespace QuizApp.Migrations
                 {
                     table.PrimaryKey("PK_QuizAnswers", x => x.QuizAnswerId);
                     table.ForeignKey(
-                        name: "FK_QuizAnswers_Questiones_QuestionId",
+                        name: "FK_QuizAnswers_Questions_QuestionId",
                         column: x => x.QuestionId,
-                        principalTable: "Questiones",
+                        principalTable: "Questions",
                         principalColumn: "QuestionId");
                     table.ForeignKey(
                         name: "FK_QuizAnswers_Quizzes_QuizId",
@@ -108,8 +108,8 @@ namespace QuizApp.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_Questiones_QuizId",
-                table: "Questiones",
+                name: "IX_Questions_QuizId",
+                table: "Questions",
                 column: "QuizId");
 
             migrationBuilder.CreateIndex(
@@ -123,8 +123,8 @@ namespace QuizApp.Migrations
                 column: "QuizId");
 
             migrationBuilder.CreateIndex(
-                name: "IX_Scrores_UserId",
-                table: "Scrores",
+                name: "IX_Scores_UserId",
+                table: "Scores",
                 column: "UserId");
         }
 
@@ -135,10 +135,10 @@ namespace QuizApp.Migrations
                 name: "QuizAnswers");
 
             migrationBuilder.DropTable(
-                name: "Scrores");
+                name: "Scores");
 
             migrationBuilder.DropTable(
-                name: "Questiones");
+                name: "Questions");
 
             migrationBuilder.DropTable(
                 name: "Users");

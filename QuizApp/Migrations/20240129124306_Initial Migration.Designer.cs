@@ -12,8 +12,8 @@ using QuizApp.Data;
 namespace QuizApp.Migrations
 {
     [DbContext(typeof(QuizAppApiDbContext))]
-    [Migration("20240129004642_initial entities")]
-    partial class initialentities
+    [Migration("20240129124306_Initial Migration")]
+    partial class InitialMigration
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace QuizApp.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("Questiones");
+                    b.ToTable("Questions");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.Quiz", b =>
@@ -128,7 +128,7 @@ namespace QuizApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("Scrores");
+                    b.ToTable("Scores");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.User", b =>
