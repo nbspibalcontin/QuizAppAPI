@@ -1,10 +1,10 @@
 ﻿using QuizApp.Entity;
-using QuizApp.Request;
+using QuizApp.Request.Quiz;
 using QuizApp.Response;
 
 namespace QuizApp.Repository.Interfaces
 {
-    public interface IQuizRepository : IDisposable
+    public interface IQuiz : IDisposable
     {
         //Create Quiz
         MessageResponse CreateQuiz(QuizRequest quizRequest);

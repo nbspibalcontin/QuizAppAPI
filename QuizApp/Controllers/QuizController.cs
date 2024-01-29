@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using QuizApp.Exception;
 using QuizApp.Repository.Interfaces;
-using QuizApp.Request;
+using QuizApp.Request.Quiz;
 using QuizApp.Response;
 
 namespace QuizApp.Controllers
@@ -11,10 +11,10 @@ namespace QuizApp.Controllers
     [ApiController]
     public class QuizController : Controller
     {
-        private readonly IQuizRepository _quizRepository;
+        private readonly IQuiz _quizRepository;
         private readonly IMapper _mapper;
 
-        public QuizController(IQuizRepository quizRepository, IMapper mapper)
+        public QuizController(IQuiz quizRepository, IMapper mapper)
         {
             _quizRepository = quizRepository;
             _mapper = mapper;

@@ -4,13 +4,13 @@ using QuizApp.Data;
 using QuizApp.Entity;
 using QuizApp.Exception;
 using QuizApp.Repository.Interfaces;
-using QuizApp.Request;
+using QuizApp.Request.Quiz;
 using QuizApp.Response;
 using System.ComponentModel.DataAnnotations;
 
 namespace QuizApp.Repository.Implementation
 {
-    public class QuizRepository : IQuizRepository
+    public class QuizRepository : IQuiz
     {
         private readonly QuizAppApiDbContext _dbContext;
         private readonly IMapper _mapper;
@@ -46,7 +46,7 @@ namespace QuizApp.Repository.Implementation
             }
             catch (SystemException ex)
             {
-                throw new ApplicationException("Error retrieving quizzes and questions.", ex);
+                throw new ApplicationException("Error creating quizzes and questions.", ex);
             }
         }
 
@@ -130,7 +130,7 @@ namespace QuizApp.Repository.Implementation
             }
             catch (System.Exception ex)
             {
-                throw new ApplicationException("Error retrieving quizzes and questions.", ex);
+                throw new ApplicationException("Error updating quizzes and questions.", ex);
             }
         }
 

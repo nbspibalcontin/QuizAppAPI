@@ -16,7 +16,8 @@ builder.Services.AddDbContext<QuizAppApiDbContext>(options =>
       .GetConnectionString("MvcDnConnectionString")));
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
-builder.Services.AddScoped<IQuizRepository, QuizRepository>();
+builder.Services.AddScoped<IQuiz, QuizRepository>();
+builder.Services.AddScoped<IAnswer, AnswerRepository>();
 
 var app = builder.Build();
 

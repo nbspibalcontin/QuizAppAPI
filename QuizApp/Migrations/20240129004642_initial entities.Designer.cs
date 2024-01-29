@@ -12,8 +12,8 @@ using QuizApp.Data;
 namespace QuizApp.Migrations
 {
     [DbContext(typeof(QuizAppApiDbContext))]
-    [Migration("20240126234327_Entity")]
-    partial class Entity
+    [Migration("20240129004642_initial entities")]
+    partial class initialentities
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -51,7 +51,7 @@ namespace QuizApp.Migrations
 
                     b.HasIndex("QuizId");
 
-                    b.ToTable("questiones");
+                    b.ToTable("Questiones");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.Quiz", b =>
@@ -72,7 +72,33 @@ namespace QuizApp.Migrations
 
                     b.HasKey("QuizId");
 
-                    b.ToTable("quizzes");
+                    b.ToTable("Quizzes");
+                });
+
+            modelBuilder.Entity("QuizApp.Entity.QuizAnswer", b =>
+                {
+                    b.Property<int>("QuizAnswerId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("QuizAnswerId"));
+
+                    b.Property<int>("QuestionId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("QuizId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("SelectedOptionIndex")
+                        .HasColumnType("int");
+
+                    b.HasKey("QuizAnswerId");
+
+                    b.HasIndex("QuestionId");
+
+                    b.HasIndex("QuizId");
+
+                    b.ToTable("QuizAnswers");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.QuizScore", b =>
@@ -102,7 +128,7 @@ namespace QuizApp.Migrations
 
                     b.HasIndex("UserId");
 
-                    b.ToTable("scores");
+                    b.ToTable("Scrores");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.User", b =>
@@ -123,7 +149,7 @@ namespace QuizApp.Migrations
 
                     b.HasKey("UserId");
 
-                    b.ToTable("users");
+                    b.ToTable("Users");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.Question", b =>
@@ -137,6 +163,23 @@ namespace QuizApp.Migrations
                     b.Navigation("Quiz");
                 });
 
+            modelBuilder.Entity("QuizApp.Entity.QuizAnswer", b =>
+                {
+                    b.HasOne("QuizApp.Entity.Question", "Question")
+                        .WithMany("Answers")
+                        .HasForeignKey("QuestionId")
+                        .IsRequired();
+
+                    b.HasOne("QuizApp.Entity.Quiz", "Quiz")
+                        .WithMany("QuizAnswers")
+                        .HasForeignKey("QuizId")
+                        .IsRequired();
+
+                    b.Navigation("Question");
+
+                    b.Navigation("Quiz");
+                });
+
             modelBuilder.Entity("QuizApp.Entity.QuizScore", b =>
                 {
                     b.HasOne("QuizApp.Entity.User", null)
@@ -144,9 +187,16 @@ namespace QuizApp.Migrations
                         .HasForeignKey("UserId");
                 });
 
+            modelBuilder.Entity("QuizApp.Entity.Question", b =>
+                {
+                    b.Navigation("Answers");
+                });
+
             modelBuilder.Entity("QuizApp.Entity.Quiz", b =>
                 {
                     b.Navigation("Questions");
+
+                    b.Navigation("QuizAnswers");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.User", b =>

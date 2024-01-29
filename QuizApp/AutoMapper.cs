@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using QuizApp.Entity;
 using QuizApp.Request;
+using QuizApp.Request.Answer;
+using QuizApp.Request.Quiz;
 using QuizApp.Response;
 
 namespace QuizApp
@@ -30,8 +32,26 @@ namespace QuizApp
             CreateMap<Question, QuestionDto>().ReverseMap();
 
             CreateMap<Quiz, QuizDto>()
-          .ForMember(dest => dest.Questions, opt => opt.MapFrom(src => src.Questions));
+           .ForMember(dest => dest.Questions, opt => opt.MapFrom(src => src.Questions));
             CreateMap<Question, QuestionDto>();
+
+
+            //Answer Mapper
+            CreateMap<SubmitQuizAnswersRequest, List<QuizAnswer>>()
+                .AfterMap((src, dest) =>
+                {
+                    dest.AddRange(src.QuestionAnswers.Select(qa => new QuizAnswer
+                    {
+                        QuizId = src.QuizId,
+                        QuestionId = qa.QuestionId,
+                        SelectedOptionIndex = qa.SelectedOptionIndex
+                    }));
+                });
+
+            CreateMap<QuestionAnswerDto, QuizAnswer>()
+                .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.QuestionId))
+                .ForMember(dest => dest.SelectedOptionIndex, opt => opt.MapFrom(src => src.SelectedOptionIndex));
+
         }
     }
 }

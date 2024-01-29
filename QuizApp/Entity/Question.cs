@@ -8,5 +8,6 @@
         public int CorrectOptionIndex { get; set; }
         public int QuizId { get; set; } // Foreign key 
         public virtual Quiz Quiz { get; set; }
+        public virtual ICollection<QuizAnswer> Answers { get; set; }
     }
 }
