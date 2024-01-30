@@ -153,6 +153,21 @@ namespace QuizApp.Repository.Implementation
             }
         }
 
+        //Delete Quiz Score
+        public MessageResponse DeleteScore(int QuizScoreId)
+        {
+            var quizScoreEntity = _dbContext.Scores.Find(QuizScoreId);
+
+            if (quizScoreEntity == null)
+            {
+                throw new NotFoundException($"No quiz score found with ID: {QuizScoreId}");
+            }
+
+            _dbContext.Scores.Remove(quizScoreEntity);
+            _dbContext.SaveChanges();
+
+            return new MessageResponse("QuizScore Delete Successfully");
+        }
 
         public void Dispose()
         {

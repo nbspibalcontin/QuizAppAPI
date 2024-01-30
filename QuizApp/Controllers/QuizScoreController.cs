@@ -51,5 +51,23 @@ namespace QuizApp.Controllers
                 return StatusCode(500, new { Message = "Internal Server Error", ErrorMessage = ex.Message });
             }
         }
+
+        //Delete Quiz Score
+        [HttpDelete("{QuizScoreId}")]
+        public IActionResult DeleteQuizScore(int QuizScoreId)
+        {
+            try
+            {
+                return Ok(_quizScoreRepository.DeleteScore(QuizScoreId));
+            }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { Message = ex.Message });
+            }
+            catch (System.Exception ex)
+            {
+                return StatusCode(500, new { Message = "Internal Server Error", ErrorMessage = ex.Message });
+            }
+        }
     }
 }

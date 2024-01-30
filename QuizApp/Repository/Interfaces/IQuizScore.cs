@@ -9,5 +9,7 @@ namespace QuizApp.Repository.Interfaces
         MessageResponse CalculateTheScore(int QuizId, int UserId);
         //Get the Score
         QuizScoreDto QuizScore(int QuizId, int UserId);
+        //Delete Score
+        MessageResponse DeleteScore(int QuizScoreId);
     }
 }
