@@ -1,9 +1,12 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using QuizApp.Data;
 using QuizApp.Entity;
+using QuizApp.Exception;
 using QuizApp.Repository.Interfaces;
 using QuizApp.Request.Answer;
 using QuizApp.Response;
+using QuizApp.Response.QuizAnswerDtos;
 using System.ComponentModel.DataAnnotations;
 
 namespace QuizApp.Repository.Implementation
@@ -19,6 +22,7 @@ namespace QuizApp.Repository.Implementation
             _dbContext = dbContext;
         }
 
+        //Create Answer Question Function
         public MessageResponse AnswerQuestion(SubmitQuizAnswersRequest request)
         {
             try
@@ -34,11 +38,12 @@ namespace QuizApp.Repository.Implementation
                     throw new ArgumentException($"Validation failed: {errorMessage}");
                 }
 
+                //Check if the QuizId is Exist
                 var quizDoesNotExist = _dbContext.Quizzes.Any(q => q.QuizId == request.QuizId);
 
                 if (!quizDoesNotExist)
                 {
-                    return new MessageResponse($"No quiz found with ID: {request.QuizId}");
+                    throw new NotFoundException($"No quiz found with ID: {request.QuizId}");
                 }
 
                 // Check if all QuestionIds exist
@@ -55,9 +60,62 @@ namespace QuizApp.Repository.Implementation
 
                 return new MessageResponse("Answer submitted successfully.");
             }
+            catch (NotFoundException)
+            {
+                throw;
+            }
             catch (System.Exception ex)
             {
                 return new MessageResponse("Error : " + ex.Message);
+            }
+        }
+
+        //Get Answers of Question by Id
+        public List<QuizAnswerDto> GetAnswer(int quizId)
+        {
+            try
+            {
+                // Check if the QuizId exists
+                var quizDoesNotExist = _dbContext.Quizzes.Any(q => q.QuizId == quizId);
+
+                if (!quizDoesNotExist)
+                {
+                    throw new NotFoundException($"No quiz found with ID: {quizId}");
+                }
+
+                // Check if the quiz has answers
+                if (!_dbContext.QuizAnswers.Any(qa => qa.QuizId == quizId))
+                {
+                    // Handle the case where the quiz has no answers
+                    throw new NoAnswersFoundException($"No answers found for quiz with ID: {quizId}");
+                }
+
+                // Use AutoMapper to map QuizAnswer entities to QuizAnswerDto
+                var quizAnswers = _dbContext.QuizAnswers
+                    .Where(qa => qa.QuizId == quizId)
+                    .Include(qa => qa.Question)
+                    .GroupBy(qa => qa.UserId)
+                    .Select(group => new QuizAnswerDto
+                    {
+                        UserId = group.Key,
+                        QuizId = quizId,
+                        QuestionAnswers = group.Select(qa => _mapper.Map<QuestionAnswerDto>(qa)).ToList()
+                    })
+                    .ToList();
+
+                return quizAnswers;
+            }
+            catch (NotFoundException)
+            {
+                throw;
+            }
+            catch (NoAnswersFoundException)
+            {
+                throw;
+            }
+            catch (System.Exception ex)
+            {
+                throw new ApplicationException("Error: " + ex.Message);
             }
         }
 

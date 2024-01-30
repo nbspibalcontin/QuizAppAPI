@@ -1,4 +1,4 @@
-﻿namespace QuizApp.Response
+﻿namespace QuizApp.Response.QuizDtos
 {
     public class QuizDto
     {

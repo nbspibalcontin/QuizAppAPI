@@ -3,7 +3,9 @@ using QuizApp.Entity;
 using QuizApp.Request;
 using QuizApp.Request.Answer;
 using QuizApp.Request.Quiz;
-using QuizApp.Response;
+using QuizApp.Request.QuizScore;
+using QuizApp.Response.QuizAnswerDtos;
+using QuizApp.Response.QuizDtos;
 
 namespace QuizApp
 {
@@ -43,15 +45,15 @@ namespace QuizApp
                     dest.AddRange(src.QuestionAnswers.Select(qa => new QuizAnswer
                     {
                         QuizId = src.QuizId,
+                        UserId = src.UserId,
                         QuestionId = qa.QuestionId,
                         SelectedOptionIndex = qa.SelectedOptionIndex
                     }));
                 });
 
-            CreateMap<QuestionAnswerDto, QuizAnswer>()
-                .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.QuestionId))
-                .ForMember(dest => dest.SelectedOptionIndex, opt => opt.MapFrom(src => src.SelectedOptionIndex));
-
+            //Get the Answer
+            CreateMap<QuizAnswer, QuestionAnswerDto>()
+            .ForMember(dest => dest.QuestionText, opt => opt.MapFrom(src => src.Question.QuestionText));
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace QuizApp.Request.Answer
 {
-    public class QuestionAnswerDto
+    public class QuestionAnswerRequest
     {
         [Required(ErrorMessage = "QuestionId is required.")]
         public int QuestionId { get; set; }

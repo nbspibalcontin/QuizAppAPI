@@ -1,4 +1,4 @@
-﻿namespace QuizApp.Request.Quiz
+﻿namespace QuizApp.Request.QuizScore
 {
     public class QuizScoreRequest
     {

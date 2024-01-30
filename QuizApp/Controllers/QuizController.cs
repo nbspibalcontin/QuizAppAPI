@@ -3,7 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using QuizApp.Exception;
 using QuizApp.Repository.Interfaces;
 using QuizApp.Request.Quiz;
-using QuizApp.Response;
+using QuizApp.Response.QuizDtos;
 
 namespace QuizApp.Controllers
 {

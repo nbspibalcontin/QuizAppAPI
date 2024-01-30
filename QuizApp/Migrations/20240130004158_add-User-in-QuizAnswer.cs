@@ -5,7 +5,7 @@
 namespace QuizApp.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class addUserinQuizAnswer : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -89,6 +89,7 @@ namespace QuizApp.Migrations
                     QuizAnswerId = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     QuizId = table.Column<int>(type: "int", nullable: false),
+                    UserId = table.Column<int>(type: "int", nullable: false),
                     QuestionId = table.Column<int>(type: "int", nullable: false),
                     SelectedOptionIndex = table.Column<int>(type: "int", nullable: false)
                 },
@@ -105,6 +106,12 @@ namespace QuizApp.Migrations
                         column: x => x.QuizId,
                         principalTable: "Quizzes",
                         principalColumn: "QuizId");
+                    table.ForeignKey(
+                        name: "FK_QuizAnswers_Users_UserId",
+                        column: x => x.UserId,
+                        principalTable: "Users",
+                        principalColumn: "UserId",
+                        onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
@@ -121,6 +128,11 @@ namespace QuizApp.Migrations
                 name: "IX_QuizAnswers_QuizId",
                 table: "QuizAnswers",
                 column: "QuizId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizAnswers_UserId",
+                table: "QuizAnswers",
+                column: "UserId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Scores_UserId",

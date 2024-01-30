@@ -89,11 +89,16 @@ namespace QuizApp.Migrations
                     b.Property<int>("SelectedOptionIndex")
                         .HasColumnType("int");
 
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
                     b.HasKey("QuizAnswerId");
 
                     b.HasIndex("QuestionId");
 
                     b.HasIndex("QuizId");
+
+                    b.HasIndex("UserId");
 
                     b.ToTable("QuizAnswers");
                 });
@@ -172,9 +177,17 @@ namespace QuizApp.Migrations
                         .HasForeignKey("QuizId")
                         .IsRequired();
 
+                    b.HasOne("QuizApp.Entity.User", "User")
+                        .WithMany("Answers")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
                     b.Navigation("Question");
 
                     b.Navigation("Quiz");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.QuizScore", b =>
@@ -198,6 +211,8 @@ namespace QuizApp.Migrations
 
             modelBuilder.Entity("QuizApp.Entity.User", b =>
                 {
+                    b.Navigation("Answers");
+
                     b.Navigation("QuizScores");
                 });
 #pragma warning restore 612, 618
