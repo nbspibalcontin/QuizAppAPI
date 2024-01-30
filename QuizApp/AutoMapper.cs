@@ -6,6 +6,7 @@ using QuizApp.Request.Quiz;
 using QuizApp.Request.QuizScore;
 using QuizApp.Response.QuizAnswerDtos;
 using QuizApp.Response.QuizDtos;
+using QuizApp.Response.QuizScore;
 
 namespace QuizApp
 {
@@ -54,6 +55,22 @@ namespace QuizApp
             //Get the Answer
             CreateMap<QuizAnswer, QuestionAnswerDto>()
             .ForMember(dest => dest.QuestionText, opt => opt.MapFrom(src => src.Question.QuestionText));
+
+
+            //QuizScore
+            CreateMap<QuizAnswer, QuestionScoreDto>()
+                .ForMember(dest => dest.QuestionId, opt => opt.MapFrom(src => src.QuestionId))
+                .ForMember(dest => dest.CorrectOptionIndex, opt => opt.MapFrom(src => src.Question.CorrectOptionIndex))
+                .ForMember(dest => dest.SelectedOptionIndex, opt => opt.MapFrom(src => src.SelectedOptionIndex))
+                .ForMember(dest => dest.IsCorrect, opt => opt.MapFrom(src => src.SelectedOptionIndex == src.Question.CorrectOptionIndex));
+
+            CreateMap<Quiz, QuizScoreDto>()
+                .ForMember(dest => dest.QuizId, opt => opt.MapFrom(src => src.QuizId))
+                .ForMember(dest => dest.QuestionScores, opt => opt.MapFrom(src => src.Questions));
+
+            //Calculate Answer Score
+            CreateMap<QuizScoreDto, QuizScore>()
+            .ForMember(dest => dest.QuizScoreId, opt => opt.Ignore());
         }
     }
 }

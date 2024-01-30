@@ -164,7 +164,6 @@ namespace QuizApp.Repository.Implementation
             }
         }
 
-
         public void Dispose()
         {
             _dbContext?.Dispose();

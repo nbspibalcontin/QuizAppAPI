@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using QuizApp.Data;
 
@@ -11,9 +12,11 @@ using QuizApp.Data;
 namespace QuizApp.Migrations
 {
     [DbContext(typeof(QuizAppApiDbContext))]
-    partial class QuizAppApiDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240130073705_UpdatedQuizScore3")]
+    partial class UpdatedQuizScore3
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -123,7 +126,7 @@ namespace QuizApp.Migrations
                     b.Property<int>("Score")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
+                    b.Property<int?>("UserId")
                         .HasColumnType("int");
 
                     b.HasKey("QuizScoreId");
@@ -131,8 +134,7 @@ namespace QuizApp.Migrations
                     b.HasIndex("QuizId")
                         .IsUnique();
 
-                    b.HasIndex("UserId")
-                        .IsUnique();
+                    b.HasIndex("UserId");
 
                     b.ToTable("Scores");
                 });
@@ -202,15 +204,11 @@ namespace QuizApp.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("QuizApp.Entity.User", "User")
-                        .WithOne("Score")
-                        .HasForeignKey("QuizApp.Entity.QuizScore", "UserId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
+                    b.HasOne("QuizApp.Entity.User", null)
+                        .WithMany("QuizScores")
+                        .HasForeignKey("UserId");
 
                     b.Navigation("Quiz");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("QuizApp.Entity.Question", b =>
@@ -232,8 +230,7 @@ namespace QuizApp.Migrations
                 {
                     b.Navigation("Answers");
 
-                    b.Navigation("Score")
-                        .IsRequired();
+                    b.Navigation("QuizScores");
                 });
 #pragma warning restore 612, 618
         }

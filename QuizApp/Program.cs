@@ -14,10 +14,12 @@ builder.Services.AddSwaggerGen();
 builder.Services.AddDbContext<QuizAppApiDbContext>(options =>
        options.UseSqlServer(builder.Configuration
       .GetConnectionString("MvcDnConnectionString")));
+
 builder.Services.AddAutoMapper(typeof(Program).Assembly);
 
 builder.Services.AddScoped<IQuiz, QuizRepository>();
 builder.Services.AddScoped<IAnswer, AnswerRepository>();
+builder.Services.AddScoped<IQuizScore, QuizScoreRepository>();
 
 var app = builder.Build();
 

@@ -33,6 +33,10 @@ namespace QuizApp.Controllers
             {
                 return BadRequest(ex.Message);
             }
+            catch (NotFoundException ex)
+            {
+                return NotFound(new { Message = ex.Message });
+            }
             catch (System.Exception ex)
             {
                 return StatusCode(500, new { Message = "Internal Server Error", ErrorMessage = ex.Message });

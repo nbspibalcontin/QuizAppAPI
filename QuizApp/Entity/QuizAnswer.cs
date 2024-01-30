@@ -10,5 +10,6 @@
         public int QuestionId { get; set; }
         public virtual Question Question { get; set; }
         public int SelectedOptionIndex { get; set; }
+        public DateTime AnswerDateTime { get; set; }
     }
 }

@@ -46,6 +46,14 @@ namespace QuizApp.Repository.Implementation
                     throw new NotFoundException($"No quiz found with ID: {request.QuizId}");
                 }
 
+                //Check if the User is Exist
+                var userDoesNotExist = _dbContext.Users.Any(u => u.UserId == request.UserId);
+
+                if (!userDoesNotExist)
+                {
+                    throw new NotFoundException($"No user found with ID: {request.UserId}");
+                }
+
                 // Check if all QuestionIds exist
                 if (request.QuestionAnswers.Any(qa => !_dbContext.Questions.Select(q => q.QuestionId).Contains(qa.QuestionId)))
                 {
@@ -55,6 +63,15 @@ namespace QuizApp.Repository.Implementation
                 //Mapper
                 var quizAnswers = _mapper.Map<List<QuizAnswer>>(request);
                 quizAnswers.ForEach(qa => qa.QuizId = request.QuizId);
+
+                // Set the AnswerDateTime property for each QuizAnswer
+                DateTime currentDateTime = DateTime.Now;
+                quizAnswers.ForEach(qa =>
+                {
+                    qa.QuizId = request.QuizId;
+                    qa.AnswerDateTime = currentDateTime;
+                });
+
                 _dbContext.QuizAnswers.AddRange(quizAnswers);
                 _dbContext.SaveChanges();
 
