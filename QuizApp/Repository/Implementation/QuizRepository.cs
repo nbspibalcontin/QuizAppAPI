@@ -136,6 +136,7 @@ namespace QuizApp.Repository.Implementation
             }
         }
 
+        //Delete Quiz
         public MessageResponse DeleteQuiz(int id)
         {
             try

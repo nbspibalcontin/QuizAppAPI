@@ -119,6 +119,35 @@ namespace QuizApp.Repository.Implementation
             }
         }
 
+        //Delete the Answer of User
+        public MessageResponse DeleteAnswerOfTheUser(int userId)
+        {
+            try
+            {
+                // Check if the User exists
+                var answersToDelete = _dbContext.QuizAnswers.Where(qa => qa.UserId == userId).ToList();
+
+                if (answersToDelete.Any())
+                {
+                    _dbContext.QuizAnswers.RemoveRange(answersToDelete);
+                    _dbContext.SaveChanges();
+                    return new MessageResponse("Answers deleted successfully!");
+                }
+                else
+                {
+                    return new MessageResponse($"No answers found for the user with ID: {userId}");
+                }
+            }
+            catch (NotFoundException)
+            {
+                throw; // If NotFoundException is already handled elsewhere
+            }
+            catch (System.Exception ex)
+            {
+                // Log the exception or handle it appropriately
+                return new MessageResponse($"Error: {ex.Message}");
+            }
+        }
 
         public void Dispose()
         {
