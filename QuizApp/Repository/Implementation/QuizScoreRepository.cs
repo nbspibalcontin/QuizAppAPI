@@ -20,7 +20,7 @@ namespace QuizApp.Repository.Implementation
         }
 
         //Calculate the Quiz Score
-        public MessageResponse CalculateTheScore(int quizId, int userId)
+        public MessageResponse CalculateTheScore(int quizId, string userId)
         {
             try
             {
@@ -34,7 +34,7 @@ namespace QuizApp.Repository.Implementation
                 }
 
                 // Check if the User is Exist
-                var userDoesNotExist = _dbContext.Users.Any(u => u.UserId == userId);
+                var userDoesNotExist = _dbContext.Users.Any(u => u.Id == userId);
 
                 if (!userDoesNotExist)
                 {
@@ -93,7 +93,7 @@ namespace QuizApp.Repository.Implementation
         }
 
         //Get the Score of the Answer
-        public QuizScoreDto QuizScore(int quizId, int userId)
+        public QuizScoreDto QuizScore(int quizId, string userId)
         {
             try
             {
@@ -107,7 +107,7 @@ namespace QuizApp.Repository.Implementation
                 }
 
                 // Check if the User is Exist
-                var userDoesNotExist = _dbContext.Users.Any(u => u.UserId == userId);
+                var userDoesNotExist = _dbContext.Users.Any(u => u.Id == userId);
 
                 if (!userDoesNotExist)
                 {

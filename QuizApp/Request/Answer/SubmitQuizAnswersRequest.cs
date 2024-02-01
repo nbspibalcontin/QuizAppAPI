@@ -8,7 +8,7 @@ namespace QuizApp.Request.Answer
         public int QuizId { get; set; }
 
         [Required(ErrorMessage = "UserId is required.")]
-        public int UserId { get; set; }
+        public string UserId { get; set; }
 
         [Required(ErrorMessage = "QuestionAnswers is required.")]
         [MinLength(1, ErrorMessage = "At least one question answer must be provided.")]

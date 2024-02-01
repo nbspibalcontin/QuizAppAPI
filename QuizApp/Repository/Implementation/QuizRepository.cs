@@ -6,7 +6,6 @@ using QuizApp.Exception;
 using QuizApp.Repository.Interfaces;
 using QuizApp.Request.Quiz;
 using QuizApp.Response;
-using System.ComponentModel.DataAnnotations;
 
 namespace QuizApp.Repository.Implementation
 {
@@ -26,17 +25,6 @@ namespace QuizApp.Repository.Implementation
         {
             try
             {
-                // Validation
-                var validationContext = new ValidationContext(quizRequest, serviceProvider: null, items: null);
-                var validationResults = new List<ValidationResult>();
-
-                if (!Validator.TryValidateObject(quizRequest, validationContext, validationResults, validateAllProperties: true))
-                {
-                    // Validation failed
-                    string errorMessage = string.Join(", ", validationResults.Select(result => result.ErrorMessage));
-                    throw new ArgumentException($"Validation failed: {errorMessage}");
-                }
-
                 // Mapping and database operation
                 var quiz = _mapper.Map<Quiz>(quizRequest);
                 _dbContext.Quizzes.Add(quiz);
