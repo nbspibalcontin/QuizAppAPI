@@ -1,9 +1,10 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
+using Microsoft.EntityFrameworkCore;
 using QuizApp.Entity;
 
 namespace QuizApp.Data
 {
-    public class QuizAppApiDbContext : DbContext
+    public class QuizAppApiDbContext : IdentityDbContext<User>
     {
         public QuizAppApiDbContext(DbContextOptions options) : base(options) { }
 
@@ -24,6 +25,12 @@ namespace QuizApp.Data
             modelBuilder.Entity<QuizAnswer>()
                 .HasOne(answer => answer.Quiz)
                 .WithMany(quiz => quiz.QuizAnswers)
+                .OnDelete(DeleteBehavior.ClientSetNull);
+
+            modelBuilder.Entity<User>()
+                .HasOne(user => user.Score)
+                .WithOne(score => score.User)
+                .HasForeignKey<QuizScore>(score => score.UserId)
                 .OnDelete(DeleteBehavior.ClientSetNull);
         }
 

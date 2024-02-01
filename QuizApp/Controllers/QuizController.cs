@@ -4,6 +4,7 @@ using QuizApp.Exception;
 using QuizApp.Repository.Interfaces;
 using QuizApp.Request.Quiz;
 using QuizApp.Response.QuizDtos;
+using System.ComponentModel.DataAnnotations;
 
 namespace QuizApp.Controllers
 {
@@ -26,9 +27,15 @@ namespace QuizApp.Controllers
         {
             try
             {
-                if (quizRequest == null)
+                // Validation
+                var validationContext = new ValidationContext(quizRequest, serviceProvider: null, items: null);
+                var validationResults = new List<ValidationResult>();
+
+                if (!Validator.TryValidateObject(quizRequest, validationContext, validationResults, validateAllProperties: true))
                 {
-                    return BadRequest("Invalid quiz request");
+                    // Validation failed
+                    string errorMessage = string.Join(", ", validationResults.Select(result => result.ErrorMessage));
+                    throw new ArgumentException($"Validation failed: {errorMessage}");
                 }
 
                 return Ok(_quizRepository.CreateQuiz(quizRequest));

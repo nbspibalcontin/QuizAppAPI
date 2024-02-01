@@ -67,7 +67,7 @@ namespace QuizApp.Controllers
 
         //Delete User Answer
         [HttpDelete("{userId}")]
-        public IActionResult DeleteUserAnswer(int userId)
+        public IActionResult DeleteUserAnswer(string userId)
         {
             try
             {

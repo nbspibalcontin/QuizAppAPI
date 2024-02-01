@@ -47,7 +47,7 @@ namespace QuizApp.Repository.Implementation
                 }
 
                 //Check if the User is Exist
-                var userDoesNotExist = _dbContext.Users.Any(u => u.UserId == request.UserId);
+                var userDoesNotExist = _dbContext.Users.Any(u => u.Id == request.UserId);
 
                 if (!userDoesNotExist)
                 {
@@ -137,7 +137,7 @@ namespace QuizApp.Repository.Implementation
         }
 
         //Delete the Answer of User
-        public MessageResponse DeleteAnswerOfTheUser(int userId)
+        public MessageResponse DeleteAnswerOfTheUser(string userId)
         {
             try
             {

@@ -11,7 +11,7 @@ namespace QuizApp.Repository.Interfaces
         //Get the Answers of the question
         List<QuizAnswerDto> GetAnswer(int QuizId);
         //Delete the answer of the user
-        MessageResponse DeleteAnswerOfTheUser(int UserId);
+        MessageResponse DeleteAnswerOfTheUser(string UserId);
 
     }
 }

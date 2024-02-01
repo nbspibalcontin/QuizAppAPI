@@ -1,9 +1,9 @@
 ﻿using AutoMapper;
 using QuizApp.Entity;
-using QuizApp.Request;
 using QuizApp.Request.Answer;
 using QuizApp.Request.Quiz;
 using QuizApp.Request.QuizScore;
+using QuizApp.Request.User;
 using QuizApp.Response.QuizAnswerDtos;
 using QuizApp.Response.QuizDtos;
 using QuizApp.Response.QuizScore;
@@ -71,6 +71,15 @@ namespace QuizApp
             //Calculate Answer Score
             CreateMap<QuizScoreDto, QuizScore>()
             .ForMember(dest => dest.QuizScoreId, opt => opt.Ignore());
+
+
+            CreateMap<UserRequest, User>()
+            .ForMember(dest => dest.Fullname, opt => opt.MapFrom(src => src.Fullname))
+            .ForMember(dest => dest.Age, opt => opt.MapFrom(src => src.Age))
+            .ForMember(dest => dest.Email, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.UserName, opt => opt.MapFrom(src => src.Email))
+            .ForMember(dest => dest.PasswordHash, opt => opt.MapFrom(src => src.Password));
+
         }
     }
 }

@@ -36,7 +36,7 @@ namespace QuizApp.Controllers
 
         //Get the Scores
         [HttpGet("{QuizId}/{UserId}")]
-        public IActionResult GetTheQuizScore(int QuizId, int UserId)
+        public IActionResult GetTheQuizScore(int QuizId, string UserId)
         {
             try
             {
