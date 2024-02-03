@@ -22,8 +22,7 @@ namespace QuizApp.Controllers
         }
 
         //Add User
-        [HttpPost("create-user")]
-        [Authorize(Roles = "Admin")]
+        [HttpPost("create-user"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateUser([FromBody] UserRequest userRequest)
         {
             try
@@ -54,8 +53,7 @@ namespace QuizApp.Controllers
             }
         }
 
-        [HttpPost("create-role")]
-        [Authorize(Roles = "Admin")]
+        [HttpPost("create-role"), Authorize(Roles = "Admin")]
         public async Task<IActionResult> CreateRole([FromBody] RoleRequest request)
         {
             try
