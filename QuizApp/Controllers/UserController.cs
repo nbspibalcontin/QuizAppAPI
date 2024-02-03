@@ -10,7 +10,7 @@ namespace QuizApp.Controllers
 {
     [Route("api/[Controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class UserController : Controller
     {
         private readonly IUser _userRepository;
         private readonly UserManager<User> _userManager;
